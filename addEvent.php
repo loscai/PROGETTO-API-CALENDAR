@@ -1,53 +1,40 @@
 <?php
 require_once 'vendor/autoload.php';
 
-session_start(); // Importante per memorizzare il token
-
-$client = new Google_Client();
-$client->setAuthConfig('credentials.json');
-$client->setAccessType('offline');
-$client->setPrompt('select_account consent');
-$client->addScope(Google_Service_Calendar::CALENDAR);
-$client->setRedirectUri('http://localhost/PERSONALE/PROGETTO%20API%20CALENDAR/callback.php');
-
-// Se non abbiamo un token memorizzato o è scaduto
-if (!isset($_SESSION['access_token']) || (isset($_SESSION['access_token']) && $client->isAccessTokenExpired())) {
-    // Se abbiamo un codice di autorizzazione nella query string
-    if (isset($_GET['code'])) {
-        $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-        $_SESSION['access_token'] = $token;
-    } else {
-        // Altrimenti reindirizza per ottenere l'autorizzazione
-        $auth_url = $client->createAuthUrl();
-        header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
-        exit;
-    }
+function getClient() {
+    $client = new Google_Client();
+    $client->setApplicationName('Google Calendar API PHP');
+    $client->setScopes(Google_Service_Calendar::CALENDAR);
+    
+    // Usa la chiave di servizio. Dovrai creare un file JSON di credenziali del service account
+    // dalla console Google Cloud e salvarlo come service-account-credentials.json
+    $client->setAuthConfig('service-account-credentials.json');
+    $client->setAccessType('offline');
+    
+    return $client;
 }
 
-// Imposta il token di accesso
-$client->setAccessToken($_SESSION['access_token']);
+// Ottieni il client
+$client = getClient();
 
-// Rinnova il token se è scaduto
-if ($client->isAccessTokenExpired()) {
-    if ($client->getRefreshToken()) {
-        $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-        $_SESSION['access_token'] = $client->getAccessToken();
-    }
-}
+// Imposta l'account email dell'utente di cui vuoi impersonare l'identità
+// Questo è necessario solo se usi un service account e devi accedere ai dati di un utente specifico
+// $client->setSubject('user-email@example.com');
 
+// Crea il servizio Calendar
 $service = new Google_Service_Calendar($client);
 
-// Ora puoi procedere con la creazione dell'evento
+// Crea un nuovo evento
 $event = new Google_Service_Calendar_Event([
-    'summary' => 'Google I/O 2015',
+    'summary' => 'Google I/O 2025',
     'location' => '800 Howard St., San Francisco, CA 94103',
     'description' => 'A chance to hear more about Google\'s developer products.',
     'start' => [
-        'dateTime' => '2015-05-28T09:00:00-07:00',
+        'dateTime' => '2025-05-28T09:00:00-07:00',
         'timeZone' => 'America/Los_Angeles',
     ],
     'end' => [
-        'dateTime' => '2015-05-28T17:00:00-07:00',
+        'dateTime' => '2025-05-28T17:00:00-07:00',
         'timeZone' => 'America/Los_Angeles',
     ],
     'attendees' => [
@@ -63,7 +50,14 @@ $event = new Google_Service_Calendar_Event([
     ],
 ]);
 
-$calendarId = 'primary';
-$event = $service->events->insert($calendarId, $event);
-printf('Event created: %s\n', $event->htmlLink);
+try {
+    // Inserisci l'evento
+    // Utilizza l'ID del calendario che vuoi usare
+    // 'primary' indica il calendario predefinito dell'utente
+    $calendarId = 'primary';
+    $event = $service->events->insert($calendarId, $event);
+    echo "Evento creato: " . $event->htmlLink;
+} catch (Exception $e) {
+    echo "Si è verificato un errore: " . $e->getMessage();
+}
 ?>
