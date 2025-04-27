@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CALENDARIO</title>
     <link rel="stylesheet" href="./style/style.css">
+    <script src="./js/script.js"></script>
 </head>
 <body>
     <div class="container">
@@ -13,7 +14,7 @@
             style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no">
         </iframe>
         <br>
-        <button>INSERISCI NUOVO EVENTO</button>
+        <button onclick="goToPreparaEvento()">INSERISCI NUOVO EVENTO</button>
     </div>
 </body>
 </html>

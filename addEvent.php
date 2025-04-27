@@ -1,54 +1,69 @@
-
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
-use Google\Client;
-use Google\Service\Calendar;
-use Google\Service\Calendar\Event;
+session_start(); // Importante per memorizzare il token
 
-// Initialize the Google Client
-$client = new Client();
-$client->setAuthConfig(__DIR__ . '/credentials.json');
-$client->setScopes([Calendar::CALENDAR]);
+$client = new Google_Client();
+$client->setAuthConfig('credentials.json');
 $client->setAccessType('offline');
+$client->setPrompt('select_account consent');
+$client->addScope(Google_Service_Calendar::CALENDAR);
+$client->setRedirectUri('http://localhost/PERSONALE/PROGETTO%20API%20CALENDAR/callback.php');
 
-// Create Calendar Service
-$service = new Calendar($client);
+// Se non abbiamo un token memorizzato o è scaduto
+if (!isset($_SESSION['access_token']) || (isset($_SESSION['access_token']) && $client->isAccessTokenExpired())) {
+    // Se abbiamo un codice di autorizzazione nella query string
+    if (isset($_GET['code'])) {
+        $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+        $_SESSION['access_token'] = $token;
+    } else {
+        // Altrimenti reindirizza per ottenere l'autorizzazione
+        $auth_url = $client->createAuthUrl();
+        header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
+        exit;
+    }
+}
 
+// Imposta il token di accesso
+$client->setAccessToken($_SESSION['access_token']);
 
+// Rinnova il token se è scaduto
+if ($client->isAccessTokenExpired()) {
+    if ($client->getRefreshToken()) {
+        $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+        $_SESSION['access_token'] = $client->getAccessToken();
+    }
+}
 
-$event = new Google_Service_Calendar_Event(array(
+$service = new Google_Service_Calendar($client);
+
+// Ora puoi procedere con la creazione dell'evento
+$event = new Google_Service_Calendar_Event([
     'summary' => 'Google I/O 2015',
     'location' => '800 Howard St., San Francisco, CA 94103',
     'description' => 'A chance to hear more about Google\'s developer products.',
-    'start' => array(
+    'start' => [
         'dateTime' => '2015-05-28T09:00:00-07:00',
         'timeZone' => 'America/Los_Angeles',
-    ),
-    'end' => array(
+    ],
+    'end' => [
         'dateTime' => '2015-05-28T17:00:00-07:00',
         'timeZone' => 'America/Los_Angeles',
-    ),
-    'recurrence' => array(
-        'RRULE:FREQ=DAILY;COUNT=2'
-    ),
-    'attendees' => array(
-        array('email' => 'lpage@example.com'),
-        array('email' => 'sbrin@example.com'),
-    ),
-    'reminders' => array(
-        'useDefault' => FALSE,
-        'overrides' => array(
-            array('method' => 'email', 'minutes' => 24 * 60),
-            array('method' => 'popup', 'minutes' => 10),
-        ),
-    ),
-));
+    ],
+    'attendees' => [
+        ['email' => 'lpage@example.com'],
+        ['email' => 'sbrin@example.com'],
+    ],
+    'reminders' => [
+        'useDefault' => false,
+        'overrides' => [
+            ['method' => 'email', 'minutes' => 24 * 60],
+            ['method' => 'popup', 'minutes' => 10],
+        ],
+    ],
+]);
 
 $calendarId = 'primary';
 $event = $service->events->insert($calendarId, $event);
 printf('Event created: %s\n', $event->htmlLink);
-
-
-
 ?>
