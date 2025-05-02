@@ -18,13 +18,13 @@
         <form action="addEvent.php" method="GET">
             <div class="form-group">
                 <label for="titolo">Titolo</label>
-                <input type="text" id="titolo" required>
+                <input type="text" id="titolo"  value="titolo_test"required>
             </div>
 
             <div class="form-group">
                 <label for="descrizione">Descrizione</label>
                 <!--<input type="text" id="descrizione" required>-->
-                <textarea id="descrizione" rows="4" cols="68"></textarea>
+                <textarea id="descrizione" rows="4" cols="68" value="descrizione"></textarea>
 
             </div>
 
