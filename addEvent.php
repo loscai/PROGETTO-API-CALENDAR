@@ -17,6 +17,16 @@ function getClient() {
 // Ottieni il client
 $client = getClient();
 
+try {
+    $token = $client->fetchAccessTokenWithAssertion();
+    echo "<pre>";
+    print_r($token);
+    echo "</pre>";
+} catch (Exception $e) {
+    echo "Errore nel recupero del token: " . $e->getMessage();
+}
+
+
 // Imposta l'account email dell'utente di cui vuoi impersonare l'identità
 // Questo è necessario solo se usi un service account e devi accedere ai dati di un utente specifico
 // $client->setSubject('user-email@example.com');
@@ -53,8 +63,7 @@ $event = new Google_Service_Calendar_Event([
 try {
     // Inserisci l'evento
     // Utilizza l'ID del calendario che vuoi usare
-    // 'primary' indica il calendario predefinito dell'utente
-    $calendarId = 'primary';
+    $calendarId = 'christiancolombo2k5@gmail.com';
     $event = $service->events->insert($calendarId, $event);
     echo "Evento creato: " . $event->htmlLink;
 } catch (Exception $e) {
