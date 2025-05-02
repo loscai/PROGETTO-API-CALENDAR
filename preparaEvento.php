@@ -18,37 +18,37 @@
         <form action="addEvent.php" method="GET">
             <div class="form-group">
                 <label for="titolo">Titolo</label>
-                <input type="text" id="titolo"  value="titolo_test"required>
+                <input type="text" id="titolo" name="titolo" value="titolo_test"required>
             </div>
 
             <div class="form-group">
                 <label for="descrizione">Descrizione</label>
                 <!--<input type="text" id="descrizione" required>-->
-                <textarea id="descrizione" rows="4" cols="68" value="descrizione"></textarea>
+                <textarea id="descrizione" name="descrizione" rows="4" cols="68"></textarea>
 
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="data_inizio">Data Inizio</label>
-                    <input type="date" id="data_inizio" required>
+                    <input type="date" id="data_inizio" name="data_inizio" required>
                 </div>
 
                 <div class="form-group">
                     <label for="ora_inizio">Ora Inizio</label>
-                    <input type="time" id="ora_inizio" required>
+                    <input type="time" id="ora_inizio" name="ora_inizio" required>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="data_fine">Data Fine</label>
-                    <input type="date" id="data_fine" required>
+                    <input type="date" id="data_fine" name="data_fine" required>
                 </div>
 
                 <div class="form-group">
                     <label for="ora_fine">Ora Fine</label>
-                    <input type="time" id="ora_fine" required>
+                    <input type="time" id="ora_fine" name="ora_fine" required>
                 </div>
             </div>
 
