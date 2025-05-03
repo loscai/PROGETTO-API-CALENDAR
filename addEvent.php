@@ -1,10 +1,8 @@
 <?php
 require_once 'vendor/autoload.php';
 
-use Google\Client;
-use Google\Service\Calendar;
-use Google\Service\Calendar\Event;
-use Google\Service\Calendar\EventDateTime;
+use GuzzleHttp\Client;
+
 
 // Funzione per ottenere il client
 function getClient(): Client
