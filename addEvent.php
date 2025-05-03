@@ -1,57 +1,71 @@
 <?php
 require_once 'vendor/autoload.php';
 
-function getClient() {
-    $client = new Google_Client();
-    $client->setApplicationName('Google Calendar API PHP');
-    $client->setScopes(Google_Service_Calendar::CALENDAR);
-    
-    // Usa la chiave di servizio. Dovrai creare un file JSON di credenziali del service account
-    // dalla console Google Cloud e salvarlo come service-account-credentials.json
+use Google\Client;
+use Google\Service\Calendar;
+use Google\Service\Calendar\Event;
+use Google\Service\Calendar\EventDateTime;
+
+// Funzione per ottenere il client
+function getClient(): Client
+{
+    $client = new Client();
     $client->setAuthConfig('service-account-credentials.json');
+    $client->addScope(Calendar::CALENDAR);
     $client->setAccessType('offline');
-    
     return $client;
 }
 
 // Ottieni il client
 $client = getClient();
 
+// DEBUG: Recupera e stampa il token
 try {
     $token = $client->fetchAccessTokenWithAssertion();
-    echo "<pre>";
-    print_r($token);
-    echo "</pre>";
+    if (!isset($token['access_token'])) {
+        echo "<pre>Token assente o errore:\n";
+        print_r($token);
+        echo "</pre>";
+        exit;
+    }
 } catch (Exception $e) {
     echo "Errore nel recupero del token: " . $e->getMessage();
+    exit;
 }
 
+// ✅ Recupera i dati dal form
+$titolo = $_GET['titolo'] ?? 'Evento senza titolo';
+$descrizione = $_GET['descrizione'] ?? '';
+$data_inizio = $_GET['data_inizio'] ?? '';
+$ora_inizio = $_GET['ora_inizio'] ?? '';
+$data_fine = $_GET['data_fine'] ?? '';
+$ora_fine = $_GET['ora_fine'] ?? '';
 
-// Imposta l'account email dell'utente di cui vuoi impersonare l'identità
-// Questo è necessario solo se usi un service account e devi accedere ai dati di un utente specifico
-// $client->setSubject('user-email@example.com');
+if (!$data_inizio || !$ora_inizio || !$data_fine || !$ora_fine) {
+    echo "❌ Dati mancanti: controlla di aver compilato tutti i campi.";
+    exit;
+}
+
+// ✨ Combina data e ora per Google Calendar (RFC3339)
+$startDateTime = $data_inizio . 'T' . $ora_inizio . ':00';
+$endDateTime = $data_fine . 'T' . $ora_fine . ':00';
 
 // Crea il servizio Calendar
-$service = new Google_Service_Calendar($client);
+$calendarService = new Calendar($client);
 
-// Crea un nuovo evento
-$event = new Google_Service_Calendar_Event([
-    'summary' => 'Google I/O 2025',
-    'location' => '800 Howard St., San Francisco, CA 94103',
-    'description' => 'A chance to hear more about Google\'s developer products.',
-    'start' => [
-        'dateTime' => '2025-05-28T09:00:00-07:00',
-        'timeZone' => 'America/Los_Angeles',
-    ],
-    'end' => [
-        'dateTime' => '2025-05-28T17:00:00-07:00',
-        'timeZone' => 'America/Los_Angeles',
-    ],
-    'attendees' => [
-        ['email' => 'lpage@example.com'],
-        ['email' => 'sbrin@example.com'],
-    ],
-    'reminders' => [
+// Crea un nuovo evento dinamico
+$event = new Event([
+    'summary'     => $titolo,
+    'description' => $descrizione,
+    'start'       => new EventDateTime([
+        'dateTime' => $startDateTime,
+        'timeZone' => 'Europe/Rome',
+    ]),
+    'end'         => new EventDateTime([
+        'dateTime' => $endDateTime,
+        'timeZone' => 'Europe/Rome',
+    ]),
+    'reminders'   => [
         'useDefault' => false,
         'overrides' => [
             ['method' => 'email', 'minutes' => 24 * 60],
@@ -60,13 +74,12 @@ $event = new Google_Service_Calendar_Event([
     ],
 ]);
 
+// Inserisci l'evento
 try {
-    // Inserisci l'evento
-    // Utilizza l'ID del calendario che vuoi usare
-    $calendarId = 'christiancolombo2k5@gmail.com';
-    $event = $service->events->insert($calendarId, $event);
-    echo "Evento creato: " . $event->htmlLink;
+    $calendarId = 'christiancolombo2k5@gmail.com'; // ID calendario
+    $event = $calendarService->events->insert($calendarId, $event);
+    echo "✅ Evento creato: <a href='{$event->htmlLink}' target='_blank'>{$event->htmlLink}</a>";
 } catch (Exception $e) {
-    echo "Si è verificato un errore: " . $e->getMessage();
+    echo "❌ Si è verificato un errore nell'inserimento dell'evento: " . $e->getMessage();
 }
 ?>
