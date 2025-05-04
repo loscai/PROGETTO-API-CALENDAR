@@ -1,7 +1,8 @@
-# Ignore all JSON files
-*.json
+# File JSON specifici da ignorare
+credentials.json
+service-account-credentials.json
 
-# Other common files to ignore
+# Altri file comuni da ignorare
 vendor/
 node_modules/
 .env
