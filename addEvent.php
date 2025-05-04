@@ -1,13 +1,14 @@
 <?php
 require_once 'vendor/autoload.php';
 
-use GuzzleHttp\Client;
+use Google\Client as GoogleClient;
+use Google\Service\Calendar;
+use Google\Service\Calendar\Event;
+use Google\Service\Calendar\EventDateTime;
 
-
-// Funzione per ottenere il client
-function getClient(): Client
+function getClient(): GoogleClient
 {
-    $client = new Client();
+    $client = new GoogleClient();
     $client->setAuthConfig('service-account-credentials.json');
     $client->addScope(Calendar::CALENDAR);
     $client->setAccessType('offline');
