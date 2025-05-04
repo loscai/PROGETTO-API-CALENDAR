@@ -33,12 +33,12 @@ try {
 }
 
 // ✅ Recupera i dati dal form
-$titolo = $_GET['titolo'] ?? 'Evento senza titolo';
-$descrizione = $_GET['descrizione'] ?? '';
-$data_inizio = $_GET['data_inizio'] ?? '';
-$ora_inizio = $_GET['ora_inizio'] ?? '';
-$data_fine = $_GET['data_fine'] ?? '';
-$ora_fine = $_GET['ora_fine'] ?? '';
+$titolo = $_GET['titolo'];
+$descrizione = $_GET['descrizione'];
+$data_inizio = $_GET['data_inizio'];
+$ora_inizio = $_GET['ora_inizio'];
+$data_fine = $_GET['data_fine'];
+$ora_fine = $_GET['ora_fine'];
 
 if (!$data_inizio || !$ora_inizio || !$data_fine || !$ora_fine) {
     echo "❌ Dati mancanti: controlla di aver compilato tutti i campi.";
