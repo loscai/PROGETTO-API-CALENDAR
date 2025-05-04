@@ -1,0 +1,9 @@
+# Ignore all JSON files
+*.json
+
+# Other common files to ignore
+vendor/
+node_modules/
+.env
+.DS_Store
+Thumbs.db
