@@ -2,8 +2,6 @@
 
 Un'applicazione web per visualizzare e gestire eventi di un calendario scolastico attraverso l'API di Google Calendar.
 
-![Screenshot dell'applicazione](./immagini_documentazione/home.png)
-
 ## Caratteristiche
 
 - Visualizzazione del calendario Google integrato
