@@ -18,7 +18,7 @@
         <form action="addEvent.php" method="GET">       
             <div class="form-group">
                 <label for="titolo">Titolo</label>
-                <input type="text" id="titolo" name="titolo" value="titolo_test"required>
+                <input type="text" id="titolo" name="titolo" required>
             </div>
 
             <div class="form-group">
