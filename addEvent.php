@@ -32,7 +32,7 @@ try {
     exit;
 }
 
-// ✅ Recupera i dati dal form
+// Recupera i dati dal form
 $titolo = $_GET['titolo'];
 $descrizione = $_GET['descrizione'];
 $data_inizio = $_GET['data_inizio'];
@@ -41,7 +41,7 @@ $data_fine = $_GET['data_fine'];
 $ora_fine = $_GET['ora_fine'];
 
 if (!$data_inizio || !$ora_inizio || !$data_fine || !$ora_fine) {
-    echo "❌ Dati mancanti: controlla di aver compilato tutti i campi.";
+    echo "Dati mancanti: controlla di aver compilato tutti i campi.";
     exit;
 }
 
@@ -80,6 +80,6 @@ try {
     header("location: index.php?message=Evento creato con successo! ID: " . $event->getId());
     exit;
 } catch (Exception $e) {
-    echo "❌ Si è verificato un errore nell'inserimento dell'evento: " . $e->getMessage();
+    echo "Si è verificato un errore nell'inserimento dell'evento: " . $e->getMessage();
 }
 ?>
