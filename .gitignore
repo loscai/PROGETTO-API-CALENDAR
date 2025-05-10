@@ -1,10 +1,12 @@
-# File JSON specifici da ignorare
-credentials.json
-service-account-credentials.json
+# Dependencies
+/vendor/
+/node_modules/
 
-# Altri file comuni da ignorare
-vendor/
-node_modules/
+# Credentials and sensitive data
+/credentials.json
+/service-account-credentials.json
+
+# System files
 .env
 .DS_Store
 Thumbs.db
