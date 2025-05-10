@@ -67,8 +67,10 @@ $event = new Event([
     'reminders'   => [
         'useDefault' => false,
         'overrides' => [
-            ['method' => 'email', 'minutes' => 24 * 60],
+            //metodi di notifica personalizzati
             ['method' => 'popup', 'minutes' => 10],
+            ['method' => 'popup', 'minutes' => 30],
+            ['method' => 'popup', 'minutes' => 60],
         ],
     ],
 ]);
