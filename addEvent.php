@@ -6,6 +6,7 @@ use Google\Service\Calendar;
 use Google\Service\Calendar\Event;
 use Google\Service\Calendar\EventDateTime;
 
+//Funzione per ottenere il GoogleClient
 function getClient(): GoogleClient
 {
     $client = new GoogleClient();
@@ -17,20 +18,6 @@ function getClient(): GoogleClient
 
 // Ottieni il client
 $client = getClient();
-
-// DEBUG: Recupera e stampa il token
-try {
-    $token = $client->fetchAccessTokenWithAssertion();
-    if (!isset($token['access_token'])) {
-        echo "<pre>Token assente o errore:\n";
-        print_r($token);
-        echo "</pre>";
-        exit;
-    }
-} catch (Exception $e) {
-    echo "Errore nel recupero del token: " . $e->getMessage();
-    exit;
-}
 
 // Recupera i dati dal form
 $titolo = $_GET['titolo'];
@@ -45,7 +32,7 @@ if (!$data_inizio || !$ora_inizio || !$data_fine || !$ora_fine) {
     exit;
 }
 
-// ✨ Combina data e ora per Google Calendar (RFC3339)
+// ✨ Combina data e ora per Google Calendar
 $startDateTime = $data_inizio . 'T' . $ora_inizio . ':00';
 $endDateTime = $data_fine . 'T' . $ora_fine . ':00';
 
@@ -67,10 +54,7 @@ $event = new Event([
     'reminders'   => [
         'useDefault' => false,
         'overrides' => [
-            //metodi di notifica personalizzati
             ['method' => 'popup', 'minutes' => 10],
-            ['method' => 'popup', 'minutes' => 30],
-            ['method' => 'popup', 'minutes' => 60],
         ],
     ],
 ]);
