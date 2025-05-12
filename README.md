@@ -44,7 +44,7 @@ Un'applicazione web per visualizzare e gestire eventi di un calendario scolastic
    cd calendario-scolastico
    ```
 
-2. Installa le dipendenze con Composer:
+2. Installa le dipendenze con Composer (nella directory del progetto):
    ```
    composer install
    ```
