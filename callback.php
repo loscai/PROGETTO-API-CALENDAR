@@ -1,3 +1,11 @@
+/*
+ * Questo file gestisce il callback dopo l'autenticazione con Google.
+ * Inizializza il client Google, gestisce il token di accesso e reindirizza l'utente.
+ * 
+ * Non la uso in questo progetto in quanto ho l'account di servizio, ma di base andrebbe usata.
+ */
+
+
 <?php
 require_once 'vendor/autoload.php';
 if(!isset($_SESSION)) 
