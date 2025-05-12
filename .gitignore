@@ -5,6 +5,9 @@
 # Credentials and sensitive data
 /credentials.json
 /service-account-credentials.json
+/credentials mostrabile.json
+/service-account-credentials mostrabile.json
+
 
 # System files
 .env

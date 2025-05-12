@@ -63,7 +63,7 @@ $event = new Event([
 try {
     $calendarId = 'christiancolombo2k5@gmail.com'; // ID calendario
     $event = $calendarService->events->insert($calendarId, $event);
-    header("location: index.php?message=Evento creato con successo! ID: " . $event->getId());
+    header("location: index.php?");
     exit;
 } catch (Exception $e) {
     echo "Si è verificato un errore nell'inserimento dell'evento: " . $e->getMessage();
