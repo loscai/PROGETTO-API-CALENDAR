@@ -1,6 +1,7 @@
 # Calendario Scolastico
 
 Un'applicazione web per visualizzare e gestire eventi di un calendario scolastico attraverso l'API di Google Calendar.
+[PICCOLA NOTA, il sito non l'ho messo su netsons in quanto sono necessari file sensibili per il funzionamento e se l'avessi pubblicato Google mi avrebbe disabilitato le chiavi di autenticazione]
 
 ## Caratteristiche
 
