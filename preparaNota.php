@@ -25,10 +25,6 @@
             <?php endif; ?>
 
             <form method="POST">
-                <div class="form-group">
-                    <label for="title">Titolo</label>
-                    <input type="text" id="title" name="title" required>
-                </div>
 
                 <div class="form-group">
                     <label for="content">Contenuto</label>

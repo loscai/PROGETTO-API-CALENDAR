@@ -20,7 +20,6 @@ function getClient(): Client
 
 // Gestione del form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = $_POST['title'] ?? '';
     $content = $_POST['content'] ?? '';
 
     try {
