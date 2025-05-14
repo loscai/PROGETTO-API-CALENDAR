@@ -18,7 +18,7 @@
         <br>
         <button onclick="goToPreparaEvento()">INSERISCI NUOVO EVENTO</button>
         <br><br>
-        <button onclick="goToPreparaNota()">CREA UNA NUOVA NOTA</button>
+        <button onclick="goToPreparaNota()">CREA UNA NUOVA NOTA (WIP)</button>
     </div>
 </body>
 
