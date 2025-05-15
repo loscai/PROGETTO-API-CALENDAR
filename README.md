@@ -1,4 +1,6 @@
-# Calendario Scolastico
+# GOOGLE PERSONAL HUB
+Al momento sto implementando le funzioni per l'uso di Google Calendar e Google Keep.
+Attualemte Solo Calendar funziona, Keep si trova in stato di WIP (Work In Progress).
 
 Un'applicazione web per visualizzare e gestire eventi di un calendario scolastico attraverso l'API di Google Calendar.
 [PICCOLA NOTA, il sito non l'ho messo su netsons in quanto sono necessari file sensibili per il funzionamento e se l'avessi pubblicato Google mi avrebbe disabilitato le chiavi di autenticazione]
